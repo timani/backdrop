@@ -1,0 +1,25 @@
+name: pantheon
+version: 1.0.0
+inherits: wercker/php@0.9.5
+type: main
+description:  A box for testing Drupal and deploying to Pantheon
+platform : ubuntu@12.04
+keywords:
+  - php
+  - drupal
+  - drush
+  - pantheon
+  - terminus
+packages:
+  - drush@6.1.0
+  - terminus
+script: |
+  # Install drush
+  pear channel-discover pear.drush.org
+  pear install drush/drush
+  phpenv rehash
+  drush --version
+
+  # Install Terminus
+  composer create-project pantheon-systems/terminus $HOME/.drush/terminus -s dev --no-dev -n
+  drush cc drush
